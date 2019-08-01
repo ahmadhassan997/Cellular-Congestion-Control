@@ -1,2 +1,178 @@
 0.028 : /NodeList/7/DeviceList/0/LteUeRrc/ConnectionEstablished UE IMSI 1: connected to CellId 1 with RNTI 1
 0.0399286 : /NodeList/2/DeviceList/0/LteEnbRrc/ConnectionEstablished eNB CellId 1: successful connection of UE with IMSI 1 RNTI 1
+9.12693 : /NodeList/2/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 1: start handover of UE with IMSI 1 RNTI 1 to CellId 2
+9.13 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 1 with RNTI 1, doing handover to CellId 2
+9.21121 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 2 with RNTI 1
+9.21793 : /NodeList/3/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 2: completed handover of UE with IMSI 1 RNTI 1
+9.44693 : /NodeList/3/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 2: start handover of UE with IMSI 1 RNTI 1 to CellId 1
+9.45 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 2 with RNTI 1, doing handover to CellId 1
+9.45321 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 1 with RNTI 2
+9.46593 : /NodeList/2/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 1: completed handover of UE with IMSI 1 RNTI 2
+11.5669 : /NodeList/2/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 1: start handover of UE with IMSI 1 RNTI 2 to CellId 2
+11.57 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 1 with RNTI 2, doing handover to CellId 2
+11.5732 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 2 with RNTI 2
+11.5859 : /NodeList/3/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 2: completed handover of UE with IMSI 1 RNTI 2
+12.6069 : /NodeList/3/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 2: start handover of UE with IMSI 1 RNTI 2 to CellId 1
+12.611 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 2 with RNTI 2, doing handover to CellId 1
+12.6142 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 1 with RNTI 3
+12.6269 : /NodeList/2/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 1: completed handover of UE with IMSI 1 RNTI 3
+14.5269 : /NodeList/2/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 1: start handover of UE with IMSI 1 RNTI 3 to CellId 2
+14.53 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 1 with RNTI 3, doing handover to CellId 2
+14.5452 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 2 with RNTI 3
+14.5509 : /NodeList/3/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 2: completed handover of UE with IMSI 1 RNTI 3
+15.3669 : /NodeList/3/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 2: start handover of UE with IMSI 1 RNTI 3 to CellId 1
+15.37 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 2 with RNTI 3, doing handover to CellId 1
+15.3732 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 1 with RNTI 4
+15.3859 : /NodeList/2/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 1: completed handover of UE with IMSI 1 RNTI 4
+16.1669 : /NodeList/2/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 1: start handover of UE with IMSI 1 RNTI 4 to CellId 2
+16.17 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 1 with RNTI 4, doing handover to CellId 2
+16.1732 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 2 with RNTI 4
+16.1859 : /NodeList/3/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 2: completed handover of UE with IMSI 1 RNTI 4
+18.6469 : /NodeList/3/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 2: start handover of UE with IMSI 1 RNTI 4 to CellId 1
+18.67 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 2 with RNTI 4, doing handover to CellId 1
+18.6732 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 1 with RNTI 5
+18.6859 : /NodeList/2/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 1: completed handover of UE with IMSI 1 RNTI 5
+19.3269 : /NodeList/2/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 1: start handover of UE with IMSI 1 RNTI 5 to CellId 2
+19.33 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 1 with RNTI 5, doing handover to CellId 2
+19.3332 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 2 with RNTI 5
+19.3459 : /NodeList/3/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 2: completed handover of UE with IMSI 1 RNTI 5
+41.0469 : /NodeList/3/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 2: start handover of UE with IMSI 1 RNTI 5 to CellId 3
+41.05 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 2 with RNTI 5, doing handover to CellId 3
+41.0532 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 3 with RNTI 1
+41.0659 : /NodeList/4/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 3: completed handover of UE with IMSI 1 RNTI 1
+41.4869 : /NodeList/4/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 3: start handover of UE with IMSI 1 RNTI 1 to CellId 2
+41.49 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 3 with RNTI 1, doing handover to CellId 2
+41.4932 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 2 with RNTI 6
+41.5059 : /NodeList/3/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 2: completed handover of UE with IMSI 1 RNTI 6
+43.3269 : /NodeList/3/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 2: start handover of UE with IMSI 1 RNTI 6 to CellId 3
+43.33 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 2 with RNTI 6, doing handover to CellId 3
+43.3632 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 3 with RNTI 2
+43.3879 : /NodeList/4/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 3: completed handover of UE with IMSI 1 RNTI 2
+43.6869 : /NodeList/4/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 3: start handover of UE with IMSI 1 RNTI 2 to CellId 2
+43.69 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 3 with RNTI 2, doing handover to CellId 2
+43.6932 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 2 with RNTI 7
+43.7059 : /NodeList/3/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 2: completed handover of UE with IMSI 1 RNTI 7
+44.3269 : /NodeList/3/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 2: start handover of UE with IMSI 1 RNTI 7 to CellId 3
+44.438 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 2 with RNTI 7, doing handover to CellId 3
+44.4412 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 3 with RNTI 3
+44.4539 : /NodeList/4/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 3: completed handover of UE with IMSI 1 RNTI 3
+45.3669 : /NodeList/4/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 3: start handover of UE with IMSI 1 RNTI 3 to CellId 2
+45.37 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 3 with RNTI 3, doing handover to CellId 2
+45.3732 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 2 with RNTI 8
+45.3859 : /NodeList/3/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 2: completed handover of UE with IMSI 1 RNTI 8
+46.8869 : /NodeList/3/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 2: start handover of UE with IMSI 1 RNTI 8 to CellId 3
+46.89 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 2 with RNTI 8, doing handover to CellId 3
+46.8932 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 3 with RNTI 4
+46.9059 : /NodeList/4/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 3: completed handover of UE with IMSI 1 RNTI 4
+49.9269 : /NodeList/4/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 3: start handover of UE with IMSI 1 RNTI 4 to CellId 2
+49.93 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 3 with RNTI 4, doing handover to CellId 2
+49.9332 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 2 with RNTI 9
+49.9459 : /NodeList/3/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 2: completed handover of UE with IMSI 1 RNTI 9
+51.0069 : /NodeList/3/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 2: start handover of UE with IMSI 1 RNTI 9 to CellId 3
+51.011 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 2 with RNTI 9, doing handover to CellId 3
+51.0142 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 3 with RNTI 5
+51.0269 : /NodeList/4/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 3: completed handover of UE with IMSI 1 RNTI 5
+70.6869 : /NodeList/4/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 3: start handover of UE with IMSI 1 RNTI 5 to CellId 4
+70.69 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 3 with RNTI 5, doing handover to CellId 4
+70.6932 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 4 with RNTI 1
+70.7059 : /NodeList/5/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 4: completed handover of UE with IMSI 1 RNTI 1
+71.0869 : /NodeList/5/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 4: start handover of UE with IMSI 1 RNTI 1 to CellId 3
+71.15 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 4 with RNTI 1, doing handover to CellId 3
+71.1532 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 3 with RNTI 6
+71.1659 : /NodeList/4/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 3: completed handover of UE with IMSI 1 RNTI 6
+72.4469 : /NodeList/4/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 3: start handover of UE with IMSI 1 RNTI 6 to CellId 4
+72.45 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 3 with RNTI 6, doing handover to CellId 4
+72.4532 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 4 with RNTI 2
+72.4659 : /NodeList/5/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 4: completed handover of UE with IMSI 1 RNTI 2
+72.8869 : /NodeList/5/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 4: start handover of UE with IMSI 1 RNTI 2 to CellId 3
+72.89 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 4 with RNTI 2, doing handover to CellId 3
+72.8932 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 3 with RNTI 7
+72.9059 : /NodeList/4/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 3: completed handover of UE with IMSI 1 RNTI 7
+74.0069 : /NodeList/4/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 3: start handover of UE with IMSI 1 RNTI 7 to CellId 4
+74.01 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 3 with RNTI 7, doing handover to CellId 4
+74.0132 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 4 with RNTI 3
+74.0259 : /NodeList/5/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 4: completed handover of UE with IMSI 1 RNTI 3
+74.4869 : /NodeList/5/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 4: start handover of UE with IMSI 1 RNTI 3 to CellId 3
+74.49 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 4 with RNTI 3, doing handover to CellId 3
+74.4932 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 3 with RNTI 8
+74.5059 : /NodeList/4/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 3: completed handover of UE with IMSI 1 RNTI 8
+75.1269 : /NodeList/4/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 3: start handover of UE with IMSI 1 RNTI 8 to CellId 4
+75.13 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 3 with RNTI 8, doing handover to CellId 4
+75.1692 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 4 with RNTI 4
+75.1769 : /NodeList/5/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 4: completed handover of UE with IMSI 1 RNTI 4
+75.4869 : /NodeList/5/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 4: start handover of UE with IMSI 1 RNTI 4 to CellId 3
+75.49 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 4 with RNTI 4, doing handover to CellId 3
+75.5112 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 3 with RNTI 9
+75.5879 : /NodeList/4/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 3: completed handover of UE with IMSI 1 RNTI 9
+76.8069 : /NodeList/4/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 3: start handover of UE with IMSI 1 RNTI 9 to CellId 4
+76.81 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 3 with RNTI 9, doing handover to CellId 4
+76.8132 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 4 with RNTI 5
+76.8259 : /NodeList/5/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 4: completed handover of UE with IMSI 1 RNTI 5
+78.0069 : /NodeList/5/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 4: start handover of UE with IMSI 1 RNTI 5 to CellId 3
+78.01 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 4 with RNTI 5, doing handover to CellId 3
+78.0132 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 3 with RNTI 10
+78.0259 : /NodeList/4/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 3: completed handover of UE with IMSI 1 RNTI 10
+79.2069 : /NodeList/4/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 3: start handover of UE with IMSI 1 RNTI 10 to CellId 4
+79.331 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 3 with RNTI 10, doing handover to CellId 4
+79.3342 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 4 with RNTI 6
+79.3469 : /NodeList/5/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 4: completed handover of UE with IMSI 1 RNTI 6
+99.6069 : /NodeList/5/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 4: start handover of UE with IMSI 1 RNTI 6 to CellId 5
+99.63 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 4 with RNTI 6, doing handover to CellId 5
+99.6332 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 5 with RNTI 1
+99.6459 : /NodeList/6/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 5: completed handover of UE with IMSI 1 RNTI 1
+100.333 : /NodeList/6/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 5: start handover of UE with IMSI 1 RNTI 1 to CellId 4
+100.336 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 5 with RNTI 1, doing handover to CellId 4
+100.339 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 4 with RNTI 7
+100.352 : /NodeList/5/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 4: completed handover of UE with IMSI 1 RNTI 7
+101.407 : /NodeList/5/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 4: start handover of UE with IMSI 1 RNTI 7 to CellId 5
+101.41 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 4 with RNTI 7, doing handover to CellId 5
+101.449 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 5 with RNTI 2
+101.463 : /NodeList/6/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 5: completed handover of UE with IMSI 1 RNTI 2
+101.907 : /NodeList/6/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 5: start handover of UE with IMSI 1 RNTI 2 to CellId 4
+101.91 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 5 with RNTI 2, doing handover to CellId 4
+101.913 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 4 with RNTI 8
+101.926 : /NodeList/5/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 4: completed handover of UE with IMSI 1 RNTI 8
+103.007 : /NodeList/5/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 4: start handover of UE with IMSI 1 RNTI 8 to CellId 5
+103.01 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 4 with RNTI 8, doing handover to CellId 5
+103.091 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 5 with RNTI 3
+103.109 : /NodeList/6/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 5: completed handover of UE with IMSI 1 RNTI 3
+103.487 : /NodeList/6/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 5: start handover of UE with IMSI 1 RNTI 3 to CellId 4
+103.51 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 5 with RNTI 3, doing handover to CellId 4
+103.513 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 4 with RNTI 9
+103.526 : /NodeList/5/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 4: completed handover of UE with IMSI 1 RNTI 9
+104.127 : /NodeList/5/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 4: start handover of UE with IMSI 1 RNTI 9 to CellId 5
+104.13 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 4 with RNTI 9, doing handover to CellId 5
+104.133 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 5 with RNTI 4
+104.146 : /NodeList/6/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 5: completed handover of UE with IMSI 1 RNTI 4
+104.967 : /NodeList/6/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 5: start handover of UE with IMSI 1 RNTI 4 to CellId 4
+104.97 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 5 with RNTI 4, doing handover to CellId 4
+104.973 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 4 with RNTI 10
+104.986 : /NodeList/5/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 4: completed handover of UE with IMSI 1 RNTI 10
+105.967 : /NodeList/5/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 4: start handover of UE with IMSI 1 RNTI 10 to CellId 5
+105.97 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 4 with RNTI 10, doing handover to CellId 5
+105.973 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 5 with RNTI 5
+105.986 : /NodeList/6/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 5: completed handover of UE with IMSI 1 RNTI 5
+110.367 : /NodeList/6/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 5: start handover of UE with IMSI 1 RNTI 5 to CellId 4
+110.37 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 5 with RNTI 5, doing handover to CellId 4
+110.373 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 4 with RNTI 11
+110.386 : /NodeList/5/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 4: completed handover of UE with IMSI 1 RNTI 11
+110.939 : /NodeList/5/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 4: start handover of UE with IMSI 1 RNTI 11 to CellId 5
+110.962 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 4 with RNTI 11, doing handover to CellId 5
+110.965 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 5 with RNTI 6
+110.977 : /NodeList/6/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 5: completed handover of UE with IMSI 1 RNTI 6
+154.247 : /NodeList/6/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 5: start handover of UE with IMSI 1 RNTI 6 to CellId 4
+154.25 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 5 with RNTI 6, doing handover to CellId 4
+154.253 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 4 with RNTI 12
+154.266 : /NodeList/5/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 4: completed handover of UE with IMSI 1 RNTI 12
+154.687 : /NodeList/5/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 4: start handover of UE with IMSI 1 RNTI 12 to CellId 5
+154.69 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 4 with RNTI 12, doing handover to CellId 5
+154.693 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 5 with RNTI 7
+154.706 : /NodeList/6/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 5: completed handover of UE with IMSI 1 RNTI 7
+157.007 : /NodeList/6/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 5: start handover of UE with IMSI 1 RNTI 7 to CellId 4
+157.01 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 5 with RNTI 7, doing handover to CellId 4
+157.013 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 4 with RNTI 13
+157.026 : /NodeList/5/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 4: completed handover of UE with IMSI 1 RNTI 13
+157.491 : /NodeList/5/DeviceList/0/LteEnbRrc/HandoverStart eNB CellId 4: start handover of UE with IMSI 1 RNTI 13 to CellId 5
+157.514 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverStart UE IMSI 1: previously connected to CellId 4 with RNTI 13, doing handover to CellId 5
+157.517 : /NodeList/7/DeviceList/0/LteUeRrc/HandoverEndOk UE IMSI 1: successful handover to CellId 5 with RNTI 8
+157.527 : /NodeList/6/DeviceList/0/LteEnbRrc/HandoverEndOk eNB CellId 5: completed handover of UE with IMSI 1 RNTI 8

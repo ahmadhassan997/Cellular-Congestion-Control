@@ -28,7 +28,8 @@ using namespace ns3;
 
 double simTime = 100; /* Simulation time for each aplication */
 static double schedulerTimer = 0; /* timer to schedule position tracking */
-
+const uint32_t ONEBIL = 1000000000;
+const uint16_t kilo = 1000;
 
 int isPedestrian = 1; /* -1 : no mobility and no fading traces , 0 : vehicular trace , 1 = pedestrain trace */
 uint16_t isFading = 1;
@@ -59,10 +60,11 @@ std::string s1UplinkLinkRate = "1Gb/s";
 uint16_t ulPort = 10000;
 uint16_t dlPort = 20000;
 uint32_t packetSize = 1450;
-// double samplingInterval = 0.005; /* Invoke  getUdpStats() every x seconds*/
+double samplingInterval = 0.001; /* Invoke  getUdpStats() every x seconds*/
+double t = 0.0;
 uint16_t PUT_SAMPLING_INTERVAL = 50; /*sample a UDP throughput for each x pkts*/
 double startTime = 0.0;
-std::string dataRate = "150Mb/s";
+std::string dataRate = "500Mb/s";
 LogLevel logLevel = (LogLevel) (LOG_PREFIX_TIME | LOG_PREFIX_NODE| LOG_PREFIX_FUNC | LOG_LEVEL_DEBUG);
 bool serverClientApplication = true;
 
@@ -85,23 +87,24 @@ double ueMovingSpeed = 10; // 3Km/h for Pedestrian and 60Km/h for vehicular
 Ptr<ns3::FlowMonitor> monitor;
 FlowMonitorHelper flowHelper;
 Ptr<ns3::Ipv4FlowClassifier> classifier;
+std::map <FlowId, FlowMonitor::FlowStats> stats;
 
-// std::map<Ipv4Address, double> last_tx_time;
-// std::map<Ipv4Address, double> last_rx_time ;
-// std::map<Ipv4Address, double> last_tx_bytes ;
-// std::map<Ipv4Address, double> last_rx_bytes ;
-// std::map<Ipv4Address, double> tcp_delay ;
-// std::map<Ipv4Address, double> last_delay_sum ;
-// std::map<Ipv4Address, double> last_rx_pkts ;
-// std::map<Ipv4Address, double> last_tx_pkts ;
-// std::map<Ipv4Address, uint16_t> init_map ;
-// std::map<Ipv4Address, double> last_put_sampling_time;
-// /**sending flows stats***/
-// std::map<Ipv4Address, double> meanTxRate_send;
-// std::map<Ipv4Address, double> meanRxRate_send;
-// std::map<Ipv4Address, double> meanTcpDelay_send;
-// std::map<Ipv4Address, uint64_t> numOfLostPackets_send;
-// std::map<Ipv4Address, uint64_t> numOfTxPacket_send;
+std::map<Ipv4Address, double> last_tx_time;
+std::map<Ipv4Address, double> last_rx_time ;
+std::map<Ipv4Address, double> last_tx_bytes ;
+std::map<Ipv4Address, double> last_rx_bytes ;
+std::map<Ipv4Address, double> tcp_delay ;
+std::map<Ipv4Address, double> last_delay_sum ;
+std::map<Ipv4Address, double> last_rx_pkts ;
+std::map<Ipv4Address, double> last_tx_pkts ;
+std::map<Ipv4Address, uint16_t> init_map ;
+std::map<Ipv4Address, double> last_put_sampling_time;
+/**sending flows stats***/
+std::map<Ipv4Address, double> meanTxRate_send;
+std::map<Ipv4Address, double> meanRxRate_send;
+std::map<Ipv4Address, double> meanTcpDelay_send;
+std::map<Ipv4Address, uint64_t> numOfLostPackets_send;
+std::map<Ipv4Address, uint64_t> numOfTxPacket_send;
 
 /* 
     -*- ASCII output files configuration
@@ -131,7 +134,7 @@ Ptr<OutputStreamWrapper> position_tracking_wp;
     -*- Initialize all functions to be used later on
 */
 
-// static void getUdpPut();
+static void getUdpPut();
 void EnableLogComponents();
 void SetDefaultConfigs();
 // void CommandLineParameters(int argc , char* argv[]);
@@ -309,7 +312,8 @@ int main(int argc, char *argv[])
     if(isAutoHandover)
     {
         numberOfEnbs = 5;
-        simTime = (numberOfEnbs - 1) * distanceBetweenEnbs/ueMovingSpeed + 100;
+        // simTime = (numberOfEnbs - 1) * distanceBetweenEnbs/ueMovingSpeed + 100;
+        simTime = 160;
     }
     enbNodes.Create(numberOfEnbs);
     ueNodes.Create(numberOfUes);
@@ -430,6 +434,7 @@ int main(int argc, char *argv[])
     lteHelper->EnableMacTraces ();
     lteHelper->EnableRlcTraces ();
     lteHelper->EnablePdcpTraces ();
+    lteHelper->EnablePhyTraces ();
     Ptr<RadioBearerStatsCalculator> rlcStats = lteHelper->GetRlcStats ();
     rlcStats->SetAttribute ("EpochDuration", TimeValue (Seconds (0.05)));
     Ptr<RadioBearerStatsCalculator> pdcpStats = lteHelper->GetPdcpStats ();
@@ -448,6 +453,9 @@ int main(int argc, char *argv[])
                     MakeCallback (&NotifyHandoverEndOkEnb));
     Config::Connect ("/NodeList/*/DeviceList/*/LteUeRrc/HandoverEndOk",
                     MakeCallback (&NotifyHandoverEndOkUe));
+
+    /* Schedule to get UDP throughput */
+    Simulator::ScheduleWithContext (0 ,Seconds (0.0), &getUdpPut);
 
     /* Configure Output Store */
     ConfigStoreOutput("lte.out");
@@ -492,6 +500,77 @@ int main(int argc, char *argv[])
     -*- Get UDP stats on Downlink and Uplink
  */
 
+static void getUdpPut()
+{
+    monitor->CheckForLostPackets();
+    classifier = DynamicCast<ns3::Ipv4FlowClassifier> (flowHelper.GetClassifier());
+    stats = monitor->GetFlowStats();
+
+    /*==============Get flows information============*/
+    for (std::map<FlowId, FlowMonitor::FlowStats>::const_iterator iter = stats.begin(); iter != stats.end(); ++iter)
+    {
+        ns3::Ipv4FlowClassifier::FiveTuple t = classifier->FindFlow(iter->first);
+        if (init_map[t.destinationAddress] != 1)
+        {
+                init_map[t.destinationAddress] = 1;
+                meanTxRate_send[t.destinationAddress] = 0;
+                meanRxRate_send[t.destinationAddress] = 0;
+                last_tx_time[t.destinationAddress] = 0;
+                last_tx_bytes[t.destinationAddress] = 0;
+                last_rx_time[t.destinationAddress] = 0;
+                last_rx_bytes[t.destinationAddress] = 0;
+                meanTcpDelay_send[t.destinationAddress] = 0;
+                last_tx_pkts[t.destinationAddress] = 0;
+                last_put_sampling_time[t.destinationAddress] = 0;
+                tcp_delay[t.destinationAddress] = 0;
+                last_delay_sum[t.destinationAddress] = 0;
+                last_rx_pkts[t.destinationAddress] = 0;
+        }
+        /*sending/receiving rate*/
+        if (iter->second.txPackets > last_tx_pkts[t.destinationAddress] + PUT_SAMPLING_INTERVAL && iter->second.timeLastTxPacket > last_tx_time[t.destinationAddress])
+        {
+                meanTxRate_send[t.destinationAddress] = 8*(iter->second.txBytes-last_tx_bytes[t.destinationAddress])/(iter->second.timeLastTxPacket.GetDouble()-last_tx_time[t.destinationAddress])*ONEBIL/kilo;
+                meanRxRate_send[t.destinationAddress] = 8*(iter->second.rxBytes-last_rx_bytes[t.destinationAddress])/(iter->second.timeLastRxPacket.GetDouble()-last_rx_time[t.destinationAddress])*ONEBIL/kilo;
+		        last_tx_time[t.destinationAddress] = iter->second.timeLastTxPacket.GetDouble();
+                last_tx_bytes[t.destinationAddress] = iter->second.txBytes;
+                last_rx_time[t.destinationAddress] = iter->second.timeLastRxPacket.GetDouble();
+                last_rx_bytes[t.destinationAddress] = iter->second.rxBytes;
+                last_tx_pkts[t.destinationAddress] = iter->second.txPackets;
+                last_put_sampling_time[t.destinationAddress] = Simulator::Now().GetSeconds();
+        }
+        numOfLostPackets_send[t.destinationAddress] = iter->second.lostPackets;
+        /*end-to-end delay sampling*/
+        if (iter->second.rxPackets > last_rx_pkts[t.destinationAddress])
+        {
+                tcp_delay[t.destinationAddress] = (iter->second.delaySum.GetDouble() - last_delay_sum[t.destinationAddress]) / (iter->second.rxPackets - last_rx_pkts[t.destinationAddress])/(kilo*kilo);
+                last_delay_sum[t.destinationAddress] = iter->second.delaySum.GetDouble();
+                last_rx_pkts[t.destinationAddress] = iter->second.rxPackets;
+        }
+
+        numOfTxPacket_send[t.destinationAddress] = iter->second.txPackets;
+  }
+
+    std::map<Ipv4Address,double>::iterator it1 = meanRxRate_send.begin();
+    std::map<Ipv4Address,uint64_t>::iterator it3 = numOfLostPackets_send.begin();
+    std::map<Ipv4Address,uint64_t>::iterator it4 = numOfTxPacket_send.begin();
+
+    for (;it1 != meanRxRate_send.end(); ){
+      *put_send_wp->GetStream() << Simulator::Now().GetSeconds() << "\t\t"
+                  << (*it1).first << "\t\t"
+                  << (*it1).second << "\t\t\t"
+                  << (*it3).second << "\t\t\t"
+                  << (*it4).second <<  "\n";
+                  ++it1;
+                  ++it3;
+                  ++it4;
+    }
+
+    while (t < simTime){
+        t += samplingInterval;
+        Simulator::Schedule(Seconds(t),&getUdpPut);
+    }
+}
+
 
 /*
     -*- Configure files for input and output
@@ -521,7 +600,6 @@ void ConfigStoreInput(std::string in_f)
 /*
     -*- Configure default parameters for the simulation.
  */
-
 
 void SetDefaultConfigs()
 {
@@ -561,6 +639,7 @@ void InstallMobility(NodeContainer ueNodes , NodeContainer enbNodes)
     ueMobility.SetMobilityModel("ns3::ConstantVelocityMobilityModel");
     ueMobility.Install(ueNodes);
     ueNodes.Get(0)->GetObject<MobilityModel> ()->SetPosition (Vector (0, 100, 0));
+    ueNodes.Get(0)->GetObject<ConstantVelocityMobilityModel> ()->SetVelocity (Vector (ueMovingSpeed, 0, 0));
 }
 
 /*
@@ -665,17 +744,11 @@ static void InitWrappers()
 
     *ue_positions_wp->GetStream() << "========================\n";
     *position_tracking_wp->GetStream() << "========================\n";
-    *put_send_wp->GetStream() << "#DestinationIp\t"
-                  << "Time\t"
-                  << "Send Tcp throughput\t"
-                  << "Send Tcp delay\t"
+    *put_send_wp->GetStream() << "Time\t" 
+                  << "#DestinationIp\t"
+                  << "Send UDP throughput\t"
                   << "Number of Lost Pkts\t"
-                  << "Number of Tx Pkts\t"
-                  << "ErrorUlTx\t"
-                  << "ErrorDlTx\t"
-                  << "HarqUlTx\t"
-                  << "HarqDlTx\n";
-
+                  << "Number of Tx Pkts\n";
 }
 
 /*
