@@ -49,8 +49,8 @@ uint16_t radioUlBandwidth = 25;
 uint16_t radioDlBandwidth = 25;
 double s1UplinkLinkDelay = 0.015; /* S1u between eNB and SGW in s */
 std::string s1UplinkLinkRate = "1Gb/s";
-double movingBound = 50000;
-static uint16_t ueAllocationType = 0; /* 0 : Fixed Position , 1 : Random Position , 2 : Grid Position */
+// double movingBound = 50000;
+// static uint16_t ueAllocationType = 0; /* 0 : Fixed Position , 1 : Random Position , 2 : Grid Position */
 
 /*
     -*- Application Parameters
@@ -59,7 +59,7 @@ static uint16_t ueAllocationType = 0; /* 0 : Fixed Position , 1 : Random Positio
 uint16_t ulPort = 10000;
 uint16_t dlPort = 20000;
 uint32_t packetSize = 1450;
-double samplingInterval = 0.005; /* Invoke  getUdpStats() every x seconds*/
+// double samplingInterval = 0.005; /* Invoke  getUdpStats() every x seconds*/
 uint16_t PUT_SAMPLING_INTERVAL = 50; /*sample a UDP throughput for each x pkts*/
 double startTime = 0.0;
 std::string dataRate = "150Mb/s";
@@ -85,30 +85,29 @@ double ueMovingSpeed = 10; // 3Km/h for Pedestrian and 60Km/h for vehicular
 Ptr<ns3::FlowMonitor> monitor;
 FlowMonitorHelper flowHelper;
 Ptr<ns3::Ipv4FlowClassifier> classifier;
-std::map <FlowId , FlowMonitor::FlowStats> stats;
 
-std::map<Ipv4Address, double> last_tx_time;
-std::map<Ipv4Address, double> last_rx_time ;
-std::map<Ipv4Address, double> last_tx_bytes ;
-std::map<Ipv4Address, double> last_rx_bytes ;
-std::map<Ipv4Address, double> tcp_delay ;
-std::map<Ipv4Address, double> last_delay_sum ;
-std::map<Ipv4Address, double> last_rx_pkts ;
-std::map<Ipv4Address, double> last_tx_pkts ;
-std::map<Ipv4Address, uint16_t> init_map ;
-std::map<Ipv4Address, double> last_put_sampling_time;
-/**sending flows stats***/
-std::map<Ipv4Address, double> meanTxRate_send;
-std::map<Ipv4Address, double> meanRxRate_send;
-std::map<Ipv4Address, double> meanTcpDelay_send;
-std::map<Ipv4Address, uint64_t> numOfLostPackets_send;
-std::map<Ipv4Address, uint64_t> numOfTxPacket_send;
+// std::map<Ipv4Address, double> last_tx_time;
+// std::map<Ipv4Address, double> last_rx_time ;
+// std::map<Ipv4Address, double> last_tx_bytes ;
+// std::map<Ipv4Address, double> last_rx_bytes ;
+// std::map<Ipv4Address, double> tcp_delay ;
+// std::map<Ipv4Address, double> last_delay_sum ;
+// std::map<Ipv4Address, double> last_rx_pkts ;
+// std::map<Ipv4Address, double> last_tx_pkts ;
+// std::map<Ipv4Address, uint16_t> init_map ;
+// std::map<Ipv4Address, double> last_put_sampling_time;
+// /**sending flows stats***/
+// std::map<Ipv4Address, double> meanTxRate_send;
+// std::map<Ipv4Address, double> meanRxRate_send;
+// std::map<Ipv4Address, double> meanTcpDelay_send;
+// std::map<Ipv4Address, uint64_t> numOfLostPackets_send;
+// std::map<Ipv4Address, uint64_t> numOfTxPacket_send;
 
 /* 
     -*- ASCII output files configuration
 */
 
-static std::string DIR = "/home/ah/Desktop/projects/tracedata";
+static std::string DIR = "/home/ah/Desktop/projects/tracedata/";
 static std::string macro = DIR+"macro_output.dat";
 static std::string putSend;
 static std::string debugger = DIR+"debugger.dat";
@@ -132,7 +131,7 @@ Ptr<OutputStreamWrapper> position_tracking_wp;
     -*- Initialize all functions to be used later on
 */
 
-static void getUdpPut();
+// static void getUdpPut();
 void EnableLogComponents();
 void SetDefaultConfigs();
 // void CommandLineParameters(int argc , char* argv[]);
@@ -143,8 +142,8 @@ static void PosTracking(Ptr<OutputStreamWrapper> positionTrackingWp , Ptr<const 
 static void CourseChange (Ptr<OutputStreamWrapper> ue_positions_wp, Ptr<const MobilityModel> model);
 static void InitWrappers();
 
-void ConfigureStoreOutput(std::string);
-void ConfigureStoreInput(std::string inFile);
+void ConfigStoreOutput(std::string);
+void ConfigStoreInput(std::string inFile);
 
 /*
     -*- Handover Monitoring
@@ -423,10 +422,68 @@ int main(int argc, char *argv[])
     /* Add X2 Interface for UE Handovers */
     lteHelper->AddX2Interface(enbNodes);
 
-    /* Configure Flow Monitor Helper */
+    /* Configure Flow Monitor Helper and enable Traces*/
+    monitor = flowHelper.Install(ueNodes);
+    monitor = flowHelper.Install(remoteHost);
+    monitor = flowHelper.GetMonitor();
+    p2ph.EnablePcapAll(DIR+"udptraces");
+    lteHelper->EnableMacTraces ();
+    lteHelper->EnableRlcTraces ();
+    lteHelper->EnablePdcpTraces ();
+    Ptr<RadioBearerStatsCalculator> rlcStats = lteHelper->GetRlcStats ();
+    rlcStats->SetAttribute ("EpochDuration", TimeValue (Seconds (0.05)));
+    Ptr<RadioBearerStatsCalculator> pdcpStats = lteHelper->GetPdcpStats ();
+    pdcpStats->SetAttribute ("EpochDuration", TimeValue (Seconds (0.05)));
+
+    /* Connect custom trace sinks for RRC connection establishment and handover notification*/
+    Config::Connect ("/NodeList/*/DeviceList/*/LteEnbRrc/ConnectionEstablished",
+                    MakeCallback (&NotifyConnectionEstablishedEnb));
+    Config::Connect ("/NodeList/*/DeviceList/*/LteUeRrc/ConnectionEstablished",
+                    MakeCallback (&NotifyConnectionEstablishedUe));
+    Config::Connect ("/NodeList/*/DeviceList/*/LteEnbRrc/HandoverStart",
+                    MakeCallback (&NotifyHandoverStartEnb));
+    Config::Connect ("/NodeList/*/DeviceList/*/LteUeRrc/HandoverStart",
+                    MakeCallback (&NotifyHandoverStartUe));
+    Config::Connect ("/NodeList/*/DeviceList/*/LteEnbRrc/HandoverEndOk",
+                    MakeCallback (&NotifyHandoverEndOkEnb));
+    Config::Connect ("/NodeList/*/DeviceList/*/LteUeRrc/HandoverEndOk",
+                    MakeCallback (&NotifyHandoverEndOkUe));
+
+    /* Configure Output Store */
+    ConfigStoreOutput("lte.out");
+
+    Simulator::Stop(Seconds(simTime));
+    Simulator::Run();
+
+    /* Check for lost packets */
+    monitor->CheckForLostPackets();
+    Ptr<ns3::Ipv4FlowClassifier> classifier = DynamicCast<ns3::Ipv4FlowClassifier> (flowHelper.GetClassifier());
+    std::map <FlowId, FlowMonitor::FlowStats> stats = monitor->GetFlowStats();
+
+    for (std::map<FlowId, FlowMonitor::FlowStats>::const_iterator iter = stats.begin(); iter != stats.end(); ++iter){
+        ns3::Ipv4FlowClassifier::FiveTuple t = classifier->FindFlow(iter->first);
+
+        *macro_wp->GetStream()  << "***Flow ID: " << iter->first << " Src Addr " << t.sourceAddress << ":" << t.sourcePort 
+            << " Dst Addr " << t.destinationAddress << ":" << t.destinationPort  << std::endl
+        << "Tx Packets " << iter->second.txPackets << std::endl
+        << "Rx Packets " << iter->second.rxPackets << std::endl
+        << "Lost packets " << iter->second.lostPackets << std::endl
+        << "Lost ratio " << double (iter->second.lostPackets)/(iter->second.lostPackets+iter->second.rxPackets) << std::endl;
+        double ONEBIL=1000000000;
+        if (iter->second.rxPackets > 1){
+            *macro_wp->GetStream()   << "Average delay received " 
+        << iter->second.delaySum/iter->second.rxPackets/1000000 << std::endl
+            << "Mean received bitrate " 
+        << 8*iter->second.rxBytes/(iter->second.timeLastRxPacket-iter->second.timeFirstRxPacket)*ONEBIL/(1024) 
+        << std::endl
+            << "Mean transmitted bitrate " 
+        << 8*iter->second.txBytes/(iter->second.timeLastTxPacket-iter->second.timeFirstTxPacket)*ONEBIL/(1024) 
+        << std::endl;
+        }	
+    }
 
 
-
+    Simulator::Destroy();
     return 0;
 }
 
@@ -471,8 +528,8 @@ void SetDefaultConfigs()
   Config::SetDefault ("ns3::UdpClient::Interval", TimeValue (MicroSeconds(10000)));
   Config::SetDefault ("ns3::UdpClient::MaxPackets", UintegerValue(1000000));
   Config::SetDefault ("ns3::LteHelper::UseIdealRrc", BooleanValue(false));
-  Config::SetDefault ("ns3::DropTailQueue::MaxPackets", UintegerValue(10000));
-  Config::SetDefault ("ns3::DropTailQueue::MaxBytes", UintegerValue(999999));
+//   Config::SetDefault ("ns3::DropTailQueue::MaxPackets", UintegerValue(10000));
+//   Config::SetDefault ("ns3::DropTailQueue::MaxBytes", UintegerValue(999999));
   Config::SetDefault ("ns3::LteRlcUm::MaxTxBufferSize", UintegerValue(150000));
   Config::SetDefault ("ns3::PointToPointEpcHelper::X2LinkDelay", TimeValue (MilliSeconds(x2PathDelay)));
   Config::SetDefault ("ns3::PointToPointEpcHelper::S1uLinkDelay", TimeValue (MilliSeconds(s1UplinkLinkDelay)));
@@ -556,7 +613,7 @@ void EnablePositionTracking(NetDeviceContainer enbLteDevs, NodeContainer ueNodes
     ue_mobility_model->TraceConnectWithoutContext("CourseChange", MakeBoundCallback(&CourseChange, ue_positions_wp));
 
     /* Schedule Tracking */
-    Simulator::Schedule(Seconds(1), &posTracking, position_tracking_wp, ue_mobility_model);
+    Simulator::Schedule(Seconds(1), &PosTracking, position_tracking_wp, ue_mobility_model);
 }
 
 static void CourseChange (Ptr<OutputStreamWrapper> ue_positions_wp, Ptr<const MobilityModel> model)
@@ -571,7 +628,7 @@ static void CourseChange (Ptr<OutputStreamWrapper> ue_positions_wp, Ptr<const Mo
                                    << std::endl;
 }
 
-static void posTracking (Ptr<OutputStreamWrapper> position_tracking_wp, Ptr<const MobilityModel> model)
+static void PosTracking (Ptr<OutputStreamWrapper> position_tracking_wp, Ptr<const MobilityModel> model)
 {
         Vector position = model->GetPosition();
         Vector vel = model->GetVelocity();
@@ -584,7 +641,7 @@ static void posTracking (Ptr<OutputStreamWrapper> position_tracking_wp, Ptr<cons
         while (schedulerTimer <= simTime)
         {
                 schedulerTimer += 3;
-                Simulator::Schedule(Seconds(schedulerTimer), &posTracking, position_tracking_wp, model);
+                Simulator::Schedule(Seconds(schedulerTimer), &PosTracking, position_tracking_wp, model);
         }
 }
 
@@ -622,21 +679,9 @@ static void InitWrappers()
 }
 
 /*
-    -*- Set Default Configurations and Enable Log Components
+    -*- Enable Log Components
  */
 
-
-void SetDefaultConfigs()
-{
-  Config::SetDefault ("ns3::UdpClient::Interval", TimeValue (MicroSeconds(10000)));
-  Config::SetDefault ("ns3::UdpClient::MaxPackets", UintegerValue(1000000));
-  Config::SetDefault ("ns3::LteHelper::UseIdealRrc", BooleanValue(false));
-  Config::SetDefault ("ns3::DropTailQueue::MaxPackets", UintegerValue(10000));
-  Config::SetDefault ("ns3::DropTailQueue::MaxBytes", UintegerValue(999999));
-  Config::SetDefault ("ns3::LteRlcUm::MaxTxBufferSize", UintegerValue(150000));
-  Config::SetDefault ("ns3::PointToPointEpcHelper::X2LinkDelay", TimeValue(MilliSeconds(x2PathDelay)));
-  Config::SetDefault ("ns3::PointToPointEpcHelper::X2LinkDataRate", DataRateValue(DataRate(X2PathRate)));
-}
 
 void EnableLogComponents()
 {
@@ -653,5 +698,5 @@ void EnableLogComponents()
 
     // LogComponentEnable ("LteEnbRrc", logLevel);
     // LogComponentEnable ("LteEnbNetDevice", logLevel);
-    // LogComponentEnable ("LteUeRrc", logLevel);
+    LogComponentEnable ("LteUeRrc", logLevel);
 }
