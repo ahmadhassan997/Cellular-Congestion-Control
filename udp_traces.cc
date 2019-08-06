@@ -60,13 +60,13 @@ std::string s1UplinkLinkRate = "1Gb/s";
 uint16_t ulPort = 10000;
 uint16_t dlPort = 20000;
 uint32_t packetSize = 1450;
-double samplingInterval = 0.001; /* Invoke  getUdpStats() every x seconds*/
+double samplingInterval = 0.001; /* Invoke  getUdpStats() every x seconds */
 double t = 0.0;
-uint16_t PUT_SAMPLING_INTERVAL = 50; /*sample a UDP throughput for each x pkts*/
+uint16_t PUT_SAMPLING_INTERVAL = 50; /* sample a UDP throughput for each x pkts */
 double startTime = 0.0;
 std::string dataRate = "500Mb/s";
 LogLevel logLevel = (LogLevel) (LOG_PREFIX_TIME | LOG_PREFIX_NODE| LOG_PREFIX_FUNC | LOG_LEVEL_DEBUG);
-bool serverClientApplication = true;
+int applicationType = 3; /* UDP client server = 1 , UDP on off helper = 2 , TCP application = 3 */
 
 /*
     -*- Handover Parameters
@@ -105,6 +105,7 @@ std::map<Ipv4Address, double> meanRxRate_send;
 std::map<Ipv4Address, double> meanTcpDelay_send;
 std::map<Ipv4Address, uint64_t> numOfLostPackets_send;
 std::map<Ipv4Address, uint64_t> numOfTxPacket_send;
+std::map<Ipv4Address, uint64_t> numOfRxPacket_send;
 
 /* 
     -*- ASCII output files configuration
@@ -113,6 +114,7 @@ std::map<Ipv4Address, uint64_t> numOfTxPacket_send;
 static std::string DIR = "/home/ah/Desktop/projects/tracedata/";
 static std::string macro = DIR+"macro_output.dat";
 static std::string putSend;
+static std::string putSend2;
 static std::string debugger = DIR+"debugger.dat";
 static std::string courseChange = DIR+"courseChange.dat";
 static std::string overall = "overall.out";
@@ -124,6 +126,7 @@ static std::string positionTracking = DIR+"positionTracking.dat";
 
 static AsciiTraceHelper asciiTraceHelper;
 Ptr<OutputStreamWrapper> put_send_wp;
+Ptr<OutputStreamWrapper> put_send_wp2;
 Ptr<OutputStreamWrapper> macro_wp;
 Ptr<OutputStreamWrapper> debugger_wp;
 Ptr<OutputStreamWrapper> ue_positions_wp;
@@ -366,7 +369,7 @@ int main(int argc, char *argv[])
             ApplicationContainer serverApps;
             LogComponentEnable("Queue",logLevel);
             PUT_SAMPLING_INTERVAL = PUT_SAMPLING_INTERVAL*5;
-            if(serverClientApplication)
+            if(applicationType == 1)
             {
                 /* Server Sink Application on Uplink  and Downlink*/
                 NS_LOG_LOGIC ("installing UDP DL app for UE " << u);
@@ -383,7 +386,7 @@ int main(int argc, char *argv[])
                                                 InetSocketAddress (Ipv4Address::GetAny (), ulPort));
                 serverApps.Add (ulPacketSinkHelper.Install (remoteHost));
             }
-            else
+            else if(applicationType == 2)
             {
                 /* OnOff Sink Application on Uplink and Downlink */
                 PacketSinkHelper sink("ns3::UdpSocketFactory", InetSocketAddress(Ipv4Address::GetAny(), dlPort));
@@ -399,7 +402,22 @@ int main(int argc, char *argv[])
                 OnOffHelper ul_onOffHelper("ns3::UdpSocketFactory", Address ( InetSocketAddress(remoteHostAddr, ulPort) ));
                 ul_onOffHelper.SetConstantRate( DataRate(dataRate), packetSize );
                 clientApps.Add(ul_onOffHelper.Install(ueNodes.Get(u)));   
-            }           
+            }
+            else if(applicationType == 3)
+            {
+                LogComponentEnable("Queue",logLevel);    //Only enable Queue monitoring for TCP to accelerate experiment speed.
+                PacketSinkHelper sink("ns3::TcpSocketFactory", InetSocketAddress(Ipv4Address::GetAny(), dlPort));
+                serverApps.Add(sink.Install(ueNodes.Get(u)));
+
+                OnOffHelper onOffHelper("ns3::TcpSocketFactory", Address ( InetSocketAddress(ueIpIfaces.GetAddress(u) , dlPort) ));
+                onOffHelper.SetConstantRate( DataRate(dataRate), packetSize );
+                clientApps.Add(onOffHelper.Install(remoteHost));
+            }
+            else
+            {
+                *debugger_wp->GetStream() << "Application Type Not Defined\n";
+            }
+                 
 
             /* Set the EPC Traffic Flow Template  */
             Ptr<EpcTft> tft = Create<EpcTft> ();
@@ -430,7 +448,7 @@ int main(int argc, char *argv[])
     monitor = flowHelper.Install(ueNodes);
     monitor = flowHelper.Install(remoteHost);
     monitor = flowHelper.GetMonitor();
-    p2ph.EnablePcapAll(DIR+"udptraces");
+    p2ph.EnablePcapAll(DIR+"traces/udptraces");
     lteHelper->EnableMacTraces ();
     lteHelper->EnableRlcTraces ();
     lteHelper->EnablePdcpTraces ();
@@ -548,24 +566,48 @@ static void getUdpPut()
         }
 
         numOfTxPacket_send[t.destinationAddress] = iter->second.txPackets;
+        numOfRxPacket_send[t.destinationAddress] = iter->second.rxPackets;
   }
 
     std::map<Ipv4Address,double>::iterator it1 = meanRxRate_send.begin();
     std::map<Ipv4Address,uint64_t>::iterator it3 = numOfLostPackets_send.begin();
     std::map<Ipv4Address,uint64_t>::iterator it4 = numOfTxPacket_send.begin();
+    std::map<Ipv4Address,uint64_t>::iterator it5 = numOfRxPacket_send.begin();
 
-    for (;it1 != meanRxRate_send.end(); ){
-      *put_send_wp->GetStream() << Simulator::Now().GetSeconds() << "\t\t"
+    for (;it1 != meanRxRate_send.end(); )
+    {
+        if((*it1).first == "1.0.0.2")
+        {
+            *put_send_wp->GetStream() << Simulator::Now().GetSeconds() << "\t\t"
                   << (*it1).first << "\t\t"
                   << (*it1).second << "\t\t\t"
                   << (*it3).second << "\t\t\t"
+                  << (*it5).second << "\t\t\t"
                   << (*it4).second <<  "\n";
                   ++it1;
                   ++it3;
                   ++it4;
+                  ++it5;
+        }
+        else
+        {
+            *put_send_wp2->GetStream() << Simulator::Now().GetSeconds() << "\t\t"
+                  << (*it1).first << "\t\t"
+                  << (*it1).second << "\t\t\t"
+                  << (*it3).second << "\t\t\t"
+                  << (*it5).second << "\t\t\t"
+                  << (*it4).second <<  "\n";
+                  ++it1;
+                  ++it3;
+                  ++it4;
+                  ++it5;
+        }
+        
+      
     }
 
-    while (t < simTime){
+    while (t < simTime)
+    {
         t += samplingInterval;
         Simulator::Schedule(Seconds(t),&getUdpPut);
     }
@@ -732,6 +774,7 @@ static void InitWrappers()
 {
     /* Initialize Wrappers */
     putSend = DIR + "udp-put.dat";
+    putSend2 = DIR + "udp-put-2.dat";
     macro = DIR + "macro_udp.dat";
 
     /* Create Files For Wrappers */
@@ -741,6 +784,7 @@ static void InitWrappers()
     position_tracking_wp = asciiTraceHelper.CreateFileStream(positionTracking);
     macro_wp = asciiTraceHelper.CreateFileStream(macro);
     put_send_wp = asciiTraceHelper.CreateFileStream(putSend);
+    put_send_wp2 = asciiTraceHelper.CreateFileStream(putSend2);
 
     *ue_positions_wp->GetStream() << "========================\n";
     *position_tracking_wp->GetStream() << "========================\n";
@@ -748,6 +792,13 @@ static void InitWrappers()
                   << "#DestinationIp\t"
                   << "Send UDP throughput\t"
                   << "Number of Lost Pkts\t"
+                  << "Number of Rx Pakts\t"
+                  << "Number of Tx Pkts\n";
+    *put_send_wp2->GetStream() << "Time\t" 
+                  << "#DestinationIp\t"
+                  << "Send UDP throughput\t"
+                  << "Number of Lost Pkts\t"
+                  << "Number of Rx Pakts\t"
                   << "Number of Tx Pkts\n";
 }
 
